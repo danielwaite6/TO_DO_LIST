@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_list/app/core/database/sqlite_adm_connection.dart';
 import 'package:to_do_list/app/core/ui/todo_list_ui_config.dart';
@@ -36,7 +34,7 @@ class _AppWidgetState extends State<AppWidget> {
       initialRoute: '/login',
       theme: TodoListUiConfig.theme,
       routes: {
-        ...AuthModule().routers,
+        ...AuthModule().routes,
       },
       home: const SplashPage(),
     );

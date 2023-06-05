@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_list/app/core/ui/theme_extensions.dart';
-import 'package:to_do_list/app/core/validators/validator.dart';
+import 'package:to_do_list/app/core/validators/validators.dart';
+//import 'package:to_do_list/app/core/validators/validator.dart';
 import 'package:to_do_list/app/core/widgets/todo_list_field.dart';
 import 'package:to_do_list/app/core/widgets/todo_list_logo2.dart';
 import 'package:to_do_list/app/modules/auth/register/register_controller.dart';
@@ -15,37 +16,42 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final formKey = GlobalKey<FormState>();
-  final emailEC = TextEditingController();
-  final passwordEC = TextEditingController();
-  final confirmPasswordEC = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _emailEC = TextEditingController();
+  final _passwordEC = TextEditingController();
+  final _confirmPasswordEC = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
-    emailEC.dispose();
-    passwordEC.dispose();
-    confirmPasswordEC.dispose();
+    _emailEC.dispose();
+    _passwordEC.dispose();
+    _confirmPasswordEC.dispose();
     //context.read<RegisterController>().removeListener(() {});
   }
 
   @override
   void initState() {
     super.initState();
-    context.read<RegisterController>().addListener(() {
-      var success = context.read<RegisterController>().success;
-      var error = context.read<RegisterController>().error;
-      if (success) {
-        Navigator.of(context).pop();
-      } else if (error != null && error.isNotEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(error),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    });
+
+    context.read<RegisterController>().addListener(
+      () {
+        var controller = context.read<RegisterController>();
+        var success = controller.success;
+        var error = controller.error;
+
+        if (success) {
+          Navigator.of(context).pop();
+        } else if (error != null && error.isNotEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(error),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+    );
   }
 
   @override
@@ -97,12 +103,12 @@ class _RegisterPageState extends State<RegisterPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
             child: Form(
-              key: formKey,
+              key: _formKey,
               child: Column(
                 children: [
                   TodoListField(
                     label: 'Email',
-                    controller: emailEC,
+                    controller: _emailEC,
                     validator: Validatorless.multiple(
                       [
                         Validatorless.required('Email é obrigatório.'),
@@ -113,7 +119,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   const SizedBox(height: 20),
                   TodoListField(
                     label: 'Senha',
-                    controller: passwordEC,
+                    controller: _passwordEC,
                     obscureText: true,
                     validator: Validatorless.multiple(
                       [
@@ -126,15 +132,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   const SizedBox(height: 20),
                   TodoListField(
                     label: 'Confirmar senha',
-                    controller: confirmPasswordEC,
+                    controller: _confirmPasswordEC,
                     obscureText: true,
-                    validator: Validatorless.multiple(
-                      [
-                        Validatorless.required(
-                            'Confirmar senha é obrigatória.'),
-                        Validator.compare(passwordEC, 'Senhas não batem.'),
-                      ],
-                    ),
+                    validator: Validatorless.multiple([
+                      Validatorless.required('Confirmar senha obrigatória'),
+                      Validators.compare(_passwordEC, 'Senhas não batem'),
+                    ]),
                   ),
                   const SizedBox(height: 20),
                   Align(
@@ -142,11 +145,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: ElevatedButton(
                       onPressed: () {
                         final formValid =
-                            formKey.currentState?.validate() ?? false;
+                            _formKey.currentState?.validate() ?? false;
+                        //print(formValid);
                         if (formValid) {
                           context
                               .read<RegisterController>()
-                              .registerUser(emailEC.text, passwordEC.text);
+                              .registerUser(_emailEC.text, _passwordEC.text);
                         }
                       },
                       style: ElevatedButton.styleFrom(

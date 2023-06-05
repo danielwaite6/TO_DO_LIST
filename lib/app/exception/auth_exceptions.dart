@@ -1,6 +1,6 @@
-class AuthExceptions implements Exception {
+class AuthException implements Exception {
   final String msg;
-  AuthExceptions({
+  AuthException({
     required this.msg,
   });
 }

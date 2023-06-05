@@ -25,7 +25,7 @@ class RegisterController extends ChangeNotifier {
         // Erro
         error = 'Erro ao registrar usuário.';
       }
-    } on AuthExceptions catch (e) {
+    } on AuthException catch (e) {
       error = e.msg;
     } finally {
       notifyListeners();

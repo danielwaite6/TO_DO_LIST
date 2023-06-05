@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_list/app/app_widget.dart';
 import 'package:to_do_list/app/core/database/sqlite_connection_factory.dart';
+import 'package:to_do_list/app/modules/auth/register/register_controller.dart';
 import 'package:to_do_list/app/repositories/user/user_repository.dart';
 import 'package:to_do_list/app/repositories/user/user_repository_impl.dart';
 import 'package:to_do_list/app/services/user/user_service.dart';
@@ -29,7 +30,7 @@ class AppModule extends StatelessWidget {
           create: (context) => UserServiceImpl(
             userRepository: context.read(),
           ),
-        )
+        ),
       ],
       child: const AppWidget(),
     );
