@@ -23,10 +23,9 @@ class UserRepositoryImpl implements UserRepository {
     } on FirebaseAuthException catch (e, s) {
       //print(e);
       //print(s);
-      //print('Cheguei aqui');
-      // 'email-already-in-use'
       // 'email-already-exists'
       if (e.code == 'email-already-in-use') {
+        print('Cheguei aqui ${e.code}');
         final loginTypes =
             await _firebaseAuth.fetchSignInMethodsForEmail(email);
 

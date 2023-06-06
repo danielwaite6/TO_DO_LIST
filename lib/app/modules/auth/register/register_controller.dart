@@ -23,6 +23,7 @@ class RegisterController extends ChangeNotifier {
         success = true;
       } else {
         // Erro
+        print('Erro ao registrar usuário.');
         error = 'Erro ao registrar usuário.';
       }
     } on AuthException catch (e) {
