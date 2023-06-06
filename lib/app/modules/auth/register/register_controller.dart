@@ -16,14 +16,14 @@ class RegisterController extends ChangeNotifier {
       success = false;
       notifyListeners();
 
+      print('Cheguei aqui.');
       final user = await _userService.register(email, password);
-
+      print('Estou aqui.');
       if (user != null) {
         // Sucesso
         success = true;
       } else {
         // Erro
-        print('Erro ao registrar usuário.');
         error = 'Erro ao registrar usuário.';
       }
     } on AuthException catch (e) {
